@@ -1,0 +1,75 @@
+/* app/globals.css */
+
+/* Your entire <style> block content from your original HTML goes here */
+
+.Xbody { font-family: arial , Arial, Helvetica; font-size: 10pt; color: #ffffff }
+td { font-family: arial , Arial, Helvetica; font-size: 10pt; color: #ffffff }
+pre { font-family: arial , Arial, Helvetica; font-size: 10pt; color: #ffffff }
+A:active, A:link, A:visited, A:hover {
+  font-family: arial , Arial, Helvetica;
+  font-size: 10pt;
+  text-decoration: none;
+  font-weight: bold;
+  color: #ffffff;
+}
+A:hover { text-decoration: underline; }
+.a12, .a14, .a16, .a18, .b12, .b14, .b16, .b18, .frm {
+  font-family: arial , Arial, Helvetica;
+  color: #66ffff;
+}
+
+.strip tr:nth-child(even) { background: #5e80c5; }
+.strip tr:nth-child(odd) { background: #6e8dcb; }
+
+/* Styles for the bottom-left chatbot UI */
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+}
+
+#chatbot-input {
+  width: 150px;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #4d73bf;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 12px;
+}
+
+#chatbot-input::placeholder {
+  color: white;
+}
+
+.chatbot-send-button {
+  background: none;
+  border: none;
+  color: #003366;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+#chatbot-copy {
+  background: none; /* No background */
+  color: #003366; /* Initial text color */
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+#chatbot-copy.active {
+  color: #ffffff; /* Text color change on interaction */
+}
+
+/* No specific styles for .niceBut or .nicePar from your old code, as those elements are not present */
