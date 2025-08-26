@@ -1,6 +1,619 @@
-This is dummy material content.
-You can replace this file with your actual notes.
+Imports, Class & Fields, Constructor: Instantiate + Basic Frame, 
+Constructor: Widget Decor + Borders, Constructor: Assemble Panels, Constructor: Add to Frame, 
+Events: Wire Listeners, File I/O: Write Helper (PrintWriter + BufferedWriter + FileWriter),
+File I/O: Read Helper (BufferedReader + FileReader) — Optional, Main Method (Entry Point),
+Menus , (Optional) JFileChooser
 
-Line 1: Sample heading
-Line 2: Some quick bullet points
-Line 3: More placeholder text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```java
+// Imports
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JFileChooser;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JScrollBar;
+import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
+import javax.swing.border.LineBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Color;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ChangeListener;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Class & Fields
+public class GreetingsGUI extends JFrame {
+    private JPanel namePnl, surnamePnl, inputPnl, textAreaPnl, btnsPnl, headerPnl;
+    private JLabel headingLbl, nameLbl, surnameLbl;
+    private JTextField nameTxtFld, surnameTxtFld;
+    private JTextArea greetingsTxtArea;
+    private JButton greetBtn, clearBtn, exitBtn;
+    private JRadioButton rMale, rFemale;
+    private ButtonGroup genderGroup;
+    private JComboBox<String> levelCombo;
+    private final File dataFile = new File("greetings.txt");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Constructor: Instantiate + Basic Frame
+    public GreetingsGUI() {
+        setTitle("Greetings UI");
+        setSize(500, 550);
+        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        headingLbl = new JLabel("Greetings App");
+        nameLbl = new JLabel("Name:");
+        surnameLbl = new JLabel("Surname:");
+
+        nameTxtFld = new JTextField(20);
+        surnameTxtFld = new JTextField(20);
+
+        greetingsTxtArea = new JTextArea(12, 36);
+        greetingsTxtArea.setEditable(false);
+
+        greetBtn = new JButton("Greet");
+        clearBtn = new JButton("Clear");
+        exitBtn  = new JButton("Exit");
+
+        rMale = new JRadioButton("Male");
+        rFemale = new JRadioButton("Female");
+        genderGroup = new ButtonGroup();
+        genderGroup.add(rMale);
+        genderGroup.add(rFemale);
+
+        levelCombo = new JComboBox<>(new String[]{"One", "Two", "Three"});
+
+        headerPnl   = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        namePnl     = new JPanel(new FlowLayout());
+        surnamePnl  = new JPanel(new FlowLayout());
+        inputPnl    = new JPanel(new GridLayout(2, 1));
+        textAreaPnl = new JPanel(new BorderLayout());
+        btnsPnl     = new JPanel(new FlowLayout());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Constructor: Widget Decor + Borders
+        headerPnl.setBorder(new BevelBorder(BevelBorder.RAISED));
+        textAreaPnl.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1), " Greetings Text "));
+
+        // Constructor: Assemble Panels
+        headerPnl.add(headingLbl);
+        namePnl.add(nameLbl);       namePnl.add(nameTxtFld);
+        surnamePnl.add(surnameLbl); surnamePnl.add(surnameTxtFld);
+        inputPnl.add(namePnl);
+        inputPnl.add(surnamePnl);
+        textAreaPnl.add(new JScrollPane(greetingsTxtArea), BorderLayout.CENTER);
+        btnsPnl.add(greetBtn);
+        btnsPnl.add(clearBtn);
+        btnsPnl.add(exitBtn);
+        btnsPnl.add(rMale);
+        btnsPnl.add(rFemale);
+        btnsPnl.add(levelCombo);
+
+        // Constructor: Add to Frame
+        add(headerPnl, BorderLayout.NORTH);
+        add(inputPnl,  BorderLayout.CENTER);
+        add(textAreaPnl, BorderLayout.EAST);
+        add(btnsPnl,   BorderLayout.SOUTH);
+
+        wireEvents();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Events: Wire Listeners
+    private void wireEvents() {
+        greetBtn.addActionListener(e -> {
+            String n = nameTxtFld.getText();
+            String s = surnameTxtFld.getText();
+            String g = (rMale.isSelected() ? "Mr " : (rFemale.isSelected() ? "Ms " : ""));
+            String lvl = (String) levelCombo.getSelectedItem();
+            String msg = "Hello " + g + n + " " + s + " (Level: " + lvl + ")";
+            greetingsTxtArea.setText(msg);
+            writeLine(msg);
+        });
+        clearBtn.addActionListener(e -> {
+            nameTxtFld.setText("");
+            surnameTxtFld.setText("");
+            greetingsTxtArea.setText("");
+        });
+        exitBtn.addActionListener(e -> System.exit(0));
+        levelCombo.addItemListener(ev -> {
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // File I/O: Write Helper (PrintWriter + BufferedWriter + FileWriter)
+    private void writeLine(String line) {
+        try (PrintWriter out = new PrintWriter(
+                 new BufferedWriter(new FileWriter(dataFile, true)))) {
+            out.println(line);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // File I/O: Read Helper (BufferedReader + FileReader) — Optional
+    private void loadAllIntoTextArea() {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(dataFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        greetingsTxtArea.setText(sb.toString());
+    }
+
+
+    // Main Method (Entry Point)
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(() -> new GreetingsGUI().setVisible(true));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// (Optional) Menus — If They Ask You to Add MenuBar/Item
+// After creating frame & before add(...):
+// JMenuBar bar = new JMenuBar();
+// JMenu file = new JMenu("File");
+// JMenuItem exit = new JMenuItem("Exit");
+// exit.addActionListener(e -> System.exit(0));
+// file.add(exit);
+// bar.add(file);
+// setJMenuBar(bar);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// (Optional) JFileChooser — If They Ask File Select
+// private void pickFileAndWriteSample() {
+//     JFileChooser chooser = new JFileChooser();
+//     int res = chooser.showSaveDialog(this);
+//     if (res == JFileChooser.APPROVE_OPTION) {
+//         File chosen = chooser.getSelectedFile();
+//         try (PrintWriter out = new PrintWriter(
+//                  new BufferedWriter(new FileWriter(chosen, true)))) {
+//             out.println("Sample line");
+//         } catch (Exception ex) { ex.printStackTrace(); }
+//     }
+// }
+```
