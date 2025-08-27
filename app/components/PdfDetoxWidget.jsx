@@ -180,45 +180,16 @@ export default function PdfDetoxWidget({
       setPageProg({ current: 0, total: 0 });
       const mySeq = ++abortSeq.current;
       try {
-        const { getDocument, Tesseract } = await load();
-        if (abortSeq.current !== mySeq) return; // cancelled
+        const body = new FormData();
+        body.append('file', file);
 
-        const buf = await file.arrayBuffer();
-        // Provide wasmUrl so pdf.js image decoders (e.g., openjpeg.wasm) fetch from our origin
-        const task = getDocument({ data: buf, wasmUrl: '/' });
-        const doc = await task.promise;
-        if (abortSeq.current !== mySeq) return;
-
-        setPageProg({ current: 0, total: doc.numPages });
-        let allText = "";
-
-        for (let p = 1; p <= doc.numPages; p++) {
-          if (abortSeq.current !== mySeq) return;
-          setPageProg({ current: p, total: doc.numPages });
-          setPercent(0);
-
-          const page = await doc.getPage(p);
-          // Render to a temporary canvas
-          const viewport = page.getViewport({ scale: 2 });
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d", { willReadFrequently: true });
-          canvas.width = viewport.width | 0;
-          canvas.height = viewport.height | 0;
-          await page.render({ canvasContext: ctx, viewport }).promise;
-
-          const useOcr = ocrFn
-            ? (c) => ocrFn(Tesseract, c, p, (pct) => setPercent(pct))
-            : (c) => defaultOcrFn(Tesseract, c, p, (pct) => setPercent(pct));
-          const pageText = await useOcr(canvas);
-          allText += `\n\n----- Page ${p} -----\n\n` + pageText.trim();
-
-          // Cleanup to avoid memory bloat
-          try { page.cleanup?.(); } catch {}
-          ctx && ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const res = await fetch('/api/ocr', { method: 'POST', body });
+        const text = await res.text();
+        if (!res.ok) {
+          throw new Error(text || 'OCR failed.');
         }
-
-        if (abortSeq.current !== mySeq) return;
-        setText(allText.trim());
+        if (abortSeq.current !== mySeq) return; // cancelled
+        setText(text.trim());
         setMdActive(true);
       } catch (e) {
         console.error(e);
@@ -230,7 +201,7 @@ export default function PdfDetoxWidget({
         if (abortSeq.current === mySeq) setBusy(false);
       }
     },
-    [load, ocrFn]
+    []
   );
 
   // drag & drop support
