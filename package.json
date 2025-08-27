@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "15.3.3",
+    "pdfjs-dist": "^5.4.54",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.3"
+    "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "eslint": "^9",
-    "eslint-config-next": "15.3.3",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-next": "15.3.3"
   }
 }

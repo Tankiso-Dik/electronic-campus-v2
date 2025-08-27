@@ -1,5 +1,6 @@
 // app/layout.js
 import './globals.css'; // Import your global CSS
+import PdfDetoxWidget from './components/PdfDetoxWidget';
 
 export const metadata = {
   title: 'Electronic Campus',
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="Xbody" style={{ backgroundColor: '#4d73bf', color: '#ffffff' }}>
       {children} {/* This is where your page content will be rendered */}
+      <PdfDetoxWidget />
       </body>
       </html>
   );

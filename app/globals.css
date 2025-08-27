@@ -72,4 +72,9 @@ A:hover { text-decoration: underline; }
   color: #ffffff; /* Text color change on interaction */
 }
 
+/* OCR markdown copy button mirrors the left copy style */
+#ocr-md.active {
+  color: #ffffff;
+}
+
 /* No specific styles for .niceBut or .nicePar from your old code, as those elements are not present */

@@ -11,7 +11,7 @@ export async function POST(request) {
     model = 'gemini-1.5-flash',
     temperature = 0.7,
     top_p = 1,
-    max_tokens = 1024,
+    max_tokens = 4096,
     system = SYSTEM_PROMPT
   } = body || {};
 
@@ -42,9 +42,9 @@ export async function POST(request) {
         }))
       : [];
 
-    // Clamp sizes for stability
-    const clampStr = (s, max = 4000) => String(s).slice(0, max);
-    const safePrompt = clampStr(prompt, 8000);
+    // Clamp sizes for stability (raised limits)
+    const clampStr = (s, max = 10000) => String(s).slice(0, max);
+    const safePrompt = clampStr(prompt, 30000);
     const safeMappedHistory = mappedHistory.slice(-50).map((m) => ({
       role: m.role,
       parts: [{ text: clampStr(m.parts?.[0]?.text ?? '') }]
