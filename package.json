@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "postinstall": "node scripts/fetch-pdfjs-wasm.mjs",
     "start": "next start",
     "lint": "next lint"
   },

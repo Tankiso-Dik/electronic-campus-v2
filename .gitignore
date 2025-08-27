@@ -20,3 +20,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-store/
 (etc.)
+
+# pdf.js decoders fetched at build time
+public/openjpeg.wasm
+public/qcms_bg.wasm
+public/openjpeg_nowasm_fallback.js
+public/.pdfjs_image_decoders_ready
