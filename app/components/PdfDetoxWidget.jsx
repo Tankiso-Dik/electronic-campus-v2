@@ -184,7 +184,8 @@ export default function PdfDetoxWidget({
         if (abortSeq.current !== mySeq) return; // cancelled
 
         const buf = await file.arrayBuffer();
-        const task = getDocument({ data: buf });
+        // Provide wasmUrl so pdf.js image decoders (e.g., openjpeg.wasm) fetch from our origin
+        const task = getDocument({ data: buf, wasmUrl: '/' });
         const doc = await task.promise;
         if (abortSeq.current !== mySeq) return;
 
